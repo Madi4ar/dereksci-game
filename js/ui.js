@@ -34,42 +34,38 @@
     return '<svg class="ic lucide lucide-' + key + (cls ? ' ' + cls : '') + '" width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + nodes + '</svg>';
   }
 
-  /* Робот DerekSci — 2D SVG со статичными состояниями (ТЗ §3.1 п.7) */
+  /* Робот DerekSci — персонаж в полный рост (assets/robot/*.webp, эмоции из панели 3×3).
+     size — высота в px. Каждая эмоция имеет свою «живую» анимацию (дыхание, прыжок, покачивание…),
+     поэтому робот не стоит неподвижно. При «меньше движения» показывается статичный кадр. */
+  var ROBOT_W = 294, ROBOT_H = 374, ROBOT_VB_H = 388;
+  var ROBOT_MOODS = { idle: 'wave', wave: 'wave', happy: 'jump', jump: 'jump', wow: 'wow', think: 'think',
+    proud: 'proud', sad: 'sad', laugh: 'laugh', angry: 'angry', wink: 'wink' };
+  function robotPose(pose, extraCls, style) {
+    return '<g class="rb-pose' + (extraCls ? ' ' + extraCls : '') + '"' + (style ? ' style="' + style + '"' : '') + '>' +
+      '<ellipse class="rb-shadow rb-shadow--' + pose + '" cx="147" cy="377" rx="88" ry="9" fill="rgba(10,16,40,.2)"/>' +
+      '<g class="rb-anim rb-a-' + pose + '"><image href="assets/robot/' + pose + '.webp" x="0" y="0" width="' + ROBOT_W + '" height="' + ROBOT_H + '"/></g></g>';
+  }
+  function robotSvg(cls, size, inner) {
+    var h = Math.round(size), w = Math.round(size * ROBOT_W / ROBOT_VB_H);
+    return '<svg class="robot ' + cls + '" width="' + w + '" height="' + h + '" viewBox="0 0 ' + ROBOT_W + ' ' + ROBOT_VB_H + '" role="img" aria-label="Робот DerekSci">' + inner + '</svg>';
+  }
   function robot(mood, size) {
-    mood = mood || 'idle'; size = size || 72;
-    var eyes, mouth;
-    switch (mood) {
-      case 'happy':
-        eyes = '<path d="M33 45q5-6 10 0M57 45q5-6 10 0" stroke="#0b1d3a" stroke-width="3.5" fill="none" stroke-linecap="round"/>';
-        mouth = '<path d="M40 60q10 9 20 0" stroke="#0b1d3a" stroke-width="3.5" fill="none" stroke-linecap="round"/>'; break;
-      case 'think':
-        eyes = '<circle cx="38" cy="44" r="5" fill="#0b1d3a"/><circle cx="62" cy="42" r="5" fill="#0b1d3a"/><path d="M55 33l12-3" stroke="#0b1d3a" stroke-width="3" stroke-linecap="round"/>';
-        mouth = '<path d="M42 61h14" stroke="#0b1d3a" stroke-width="3.5" stroke-linecap="round"/>'; break;
-      case 'sad':
-        eyes = '<circle cx="38" cy="45" r="5" fill="#0b1d3a"/><circle cx="62" cy="45" r="5" fill="#0b1d3a"/><path d="M31 37l12 3M69 37l-12 3" stroke="#0b1d3a" stroke-width="3" stroke-linecap="round"/>';
-        mouth = '<path d="M41 63q9-7 18 0" stroke="#0b1d3a" stroke-width="3.5" fill="none" stroke-linecap="round"/>'; break;
-      case 'wow':
-        eyes = '<circle cx="38" cy="44" r="6.5" fill="#0b1d3a"/><circle cx="62" cy="44" r="6.5" fill="#0b1d3a"/><circle cx="40" cy="42" r="2" fill="#fff"/><circle cx="64" cy="42" r="2" fill="#fff"/>';
-        mouth = '<ellipse cx="50" cy="61" rx="5" ry="6" fill="#0b1d3a"/>'; break;
-      default:
-        eyes = '<circle cx="38" cy="44" r="5.5" fill="#0b1d3a"/><circle cx="62" cy="44" r="5.5" fill="#0b1d3a"/><circle cx="40" cy="42" r="1.8" fill="#fff"/><circle cx="64" cy="42" r="1.8" fill="#fff"/>';
-        mouth = '<path d="M42 59q8 5 16 0" stroke="#0b1d3a" stroke-width="3.5" fill="none" stroke-linecap="round"/>';
-    }
-    return '<svg class="robot robot--' + mood + '" width="' + size + '" height="' + size + '" viewBox="0 0 100 100" role="img" aria-label="Робот DerekSci">' +
-      '<line x1="50" y1="8" x2="50" y2="20" stroke="#7a8bff" stroke-width="4" stroke-linecap="round"/>' +
-      '<circle class="robot-ant" cx="50" cy="8" r="5" fill="#ffb020"/>' +
-      '<rect x="14" y="20" width="72" height="58" rx="22" fill="#6b7bff"/>' +
-      '<rect x="22" y="28" width="56" height="42" rx="16" fill="#e8f0ff"/>' +
-      eyes + mouth +
-      '<rect x="6" y="40" width="9" height="20" rx="4.5" fill="#4a5ae0"/><rect x="85" y="40" width="9" height="20" rx="4.5" fill="#4a5ae0"/>' +
-      '<rect x="34" y="80" width="32" height="12" rx="6" fill="#4a5ae0"/>' +
-      '</svg>';
+    var pose = ROBOT_MOODS[mood] || 'wave';
+    return robotSvg('robot--' + pose, size || 110, robotPose(pose));
+  }
+  /* Робот, который по кругу меняет эмоции (экран приветствия) */
+  function robotCycle(size, poses) {
+    poses = poses || ['wave', 'jump', 'wow', 'proud', 'wink', 'laugh'];
+    var dur = poses.length * 3;
+    return robotSvg('robot--cycle', size, poses.map(function (p, i) {
+      return robotPose(p, 'rb-cycle-item', 'animation-duration:' + dur + 's;animation-delay:' + (i * 3 - dur) + 's;--rb-n:' + poses.length);
+    }).join(''));
   }
 
   function bubble(text, mood, opts) {
     opts = opts || {};
     return '<div class="derek ' + (opts.compact ? 'derek--compact' : '') + '">' +
-      '<div class="derek-avatar">' + robot(mood, opts.size || (opts.compact ? 52 : 72)) + '</div>' +
+      '<div class="derek-avatar">' + robot(mood, opts.size || (opts.compact ? 76 : 116)) + '</div>' +
       '<div class="derek-bubble"><span class="sr-only">DerekSci говорит: </span>' + text + '</div></div>';
   }
 
@@ -79,14 +75,14 @@
   function errorState(err, retryLabel) {
     var offline = err && err.code === 'offline';
     var locked = err && (err.code === 'locked' || err.status === 403);
-    return '<div class="state state--error" role="alert">' + robot(offline ? 'think' : 'sad', 88) +
+    return '<div class="state state--error" role="alert">' + robot(offline ? 'think' : 'sad', 130) +
       '<h2>' + (offline ? 'Нет подключения' : locked ? 'Пока закрыто' : 'Что-то пошло не так') + '</h2>' +
       '<p>' + esc((err && err.message) || 'Попробуйте ещё раз.') + '</p>' +
       '<div class="row-gap">' + (locked ? '<a class="btn btn--primary" href="#/map">К карте</a>' :
         '<button class="btn btn--primary" data-action="retry">' + esc(retryLabel || 'Повторить') + '</button>') + '</div></div>';
   }
   function emptyState(title, text, action) {
-    return '<div class="state state--empty">' + robot('happy', 88) + '<h2>' + esc(title) + '</h2><p>' + esc(text) + '</p>' + (action || '') + '</div>';
+    return '<div class="state state--empty">' + robot('proud', 130) + '<h2>' + esc(title) + '</h2><p>' + esc(text) + '</p>' + (action || '') + '</div>';
   }
 
   /* ---- модальное окно ---- */
@@ -150,10 +146,13 @@
     return new Promise(function (resolve) {
       var i = 0;
       var m = modal({ className: 'modal--story', dismissible: opts.dismissible !== false, title: opts.title ? esc(opts.title) : null, body: '<div class="story" aria-live="polite"></div>',
-        actions: '<button class="btn btn--primary btn--lg" data-story-next data-autofocus></button>',
+        actions: '<button class="btn btn--ghost btn--lg story-skip" data-story-skip>' + icon('skip-forward', 18) + '<span>Пропустить</span></button>' +
+          '<button class="btn btn--primary btn--lg" data-story-next data-autofocus></button>',
         onClose: function () { resolve(); } });
       var box = m.el.querySelector('.story');
       var btn = m.el.querySelector('[data-story-next]');
+      var skip = m.el.querySelector('[data-story-skip]');
+      skip.setAttribute('aria-label', 'Пропустить сюжет');
       function render() {
         var l = lines[i]; var sp = SPEAKER[l.speaker] || SPEAKER.derek;
         var mood = l.mood || (l.speaker === 'derek' ? (i === lines.length - 1 ? 'happy' : 'idle') : null);
@@ -166,11 +165,14 @@
         box.innerHTML = media + '<div class="story-step">' + html + '</div><div class="story-dots" aria-hidden="true">' +
           lines.map(function (_, k) { return '<span class="' + (k === i ? 'on' : '') + '"></span>'; }).join('') + '</div>';
         btn.textContent = i < lines.length - 1 ? 'Дальше' : (opts.finalLabel || 'Продолжить');
+        skip.hidden = i >= lines.length - 1;
       }
       btn.addEventListener('click', function (e) {
         e.stopPropagation();
         if (i < lines.length - 1) { i++; render(); btn.focus(); } else m.close();
       });
+      // «Пропустить» закрывает сюжет так же, как последняя кнопка: дальнейшая логика (отметка «просмотрено», переход) не меняется
+      skip.addEventListener('click', function (e) { e.stopPropagation(); m.close(); });
       render();
     });
   }
@@ -200,6 +202,6 @@
     return many;
   }
 
-  DS.ui = { esc: esc, icon: icon, robot: robot, bubble: bubble, loading: loading, errorState: errorState, emptyState: emptyState,
+  DS.ui = { esc: esc, icon: icon, robot: robot, robotCycle: robotCycle, bubble: bubble, loading: loading, errorState: errorState, emptyState: emptyState,
     modal: modal, confirm: confirmDialog, storyScene: storyScene, toast: toast, announce: announce, pct: pct, plural: plural };
 })();

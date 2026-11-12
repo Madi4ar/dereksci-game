@@ -162,7 +162,7 @@
         ui.storyScene(w.intro, { title: w.order > 1 ? 'Новое дело' : null, finalLabel: w.intro_button || 'Начать', dismissible: false }).then(function () {
           return DS.api.post('/worlds/' + w.id + '/seen');
         }).then(function () {
-          if (w.intro_after) ui.toast(ui.robot('happy', 28) + ' ' + esc(w.intro_after), 'success');
+          if (w.intro_after) ui.toast(ui.robot('happy', 40) + ' ' + esc(w.intro_after), 'success');
         }).catch(function () {});
       }
     }, 'Загружаем мир…');

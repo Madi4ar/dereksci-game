@@ -112,20 +112,20 @@
         updateProgress(r.session_progress);
         if (r.is_correct) {
           ctrl.markCorrect();
-          setFooter('correct', '<div class="fb-head">' + ui.robot('happy', 44) + '<b>' + (r.attempt_no === 1 ? 'Верно!' : 'Получилось!') + '</b></div><p>' + esc(r.feedback) + '</p>' +
+          setFooter('correct', '<div class="fb-head">' + ui.robot(r.attempt_no === 1 ? 'wink' : 'proud', 84) + '<b>' + (r.attempt_no === 1 ? 'Верно!' : 'Получилось!') + '</b></div><p>' + esc(r.feedback) + '</p>' +
             (r.explanation ? '<p class="muted small">' + esc(r.explanation) + '</p>' : ''), r.next_action === 'complete' ? 'Завершить' : 'Дальше');
           ui.announce('Верно. ' + r.feedback);
         } else if (r.next_action === 'retry') {
           wrongCount++;
           ctrl.markWrong();
-          setFooter('wrong', '<div class="fb-head">' + ui.robot('think', 44) + '<b>Не совсем</b></div><p>' + esc(r.feedback) + '</p>' +
+          setFooter('wrong', '<div class="fb-head">' + ui.robot('think', 84) + '<b>Не совсем</b></div><p>' + esc(r.feedback) + '</p>' +
             (r.hint ? '<p class="fb-hint">' + icon('bulb', 16) + ' ' + esc(r.hint) + '</p>' : ''), 'Попробовать ещё раз');
           var hb = app.main.querySelector('[data-hint-btn]'); if (hb) hb.disabled = true;
           ui.announce('Неверно. ' + r.feedback + ' ' + (r.hint || ''));
         } else {
           ctrl.markWrong();
           ctrl.markCorrect(r.correct_option_ids);
-          setFooter('failed', '<div class="fb-head">' + ui.robot('sad', 44) + '<b>' + esc(r.feedback) + '</b></div>' +
+          setFooter('failed', '<div class="fb-head">' + ui.robot('sad', 84) + '<b>' + esc(r.feedback) + '</b></div>' +
             (r.explanation ? '<p>' + esc(r.explanation) + '</p>' : '') + '<p class="muted small">Задание добавлено в «Повторение».</p>', r.next_action === 'complete' ? 'Завершить' : 'Дальше');
           ui.announce('Ответ разобран. ' + (r.explanation || ''));
         }
@@ -190,7 +190,7 @@
 
       app.render(
         '<section class="page result">' +
-          '<div class="result-hero result-hero--' + (r.passed || isReview ? 'ok' : 'retry') + '">' + ui.robot(mood, 120) +
+          '<div class="result-hero result-hero--' + (r.passed || isReview ? 'ok' : 'retry') + '">' + ui.robot(mood, 190) +
             (isExp && r.expedition ? '<p class="eyebrow">Экспедиция №' + r.expedition.n + ' · ' + esc(r.expedition.title) + '</p>' : '') +
             '<h1>' + title + '</h1><p>' + esc(text) + '</p></div>' +
           '<div class="grid-3">' +
@@ -230,7 +230,7 @@
       var nextLabel = f.next.type === 'world' ? 'Новое дело: ' + f.next.title : 'Новое дело: экспедиции';
       app.render(
         '<section class="page final">' +
-          '<div class="final-hero">' + ui.robot('wow', 130) +
+          '<div class="final-hero">' + ui.robot('laugh', 210) +
             '<p class="eyebrow">' + esc(f.world_title) + ' · сообщение собрано</p>' +
             '<p class="final-phrase">' + esc(f.phrase) + '</p>' +
             '<p class="final-title">' + esc(f.title) + '</p></div>' +

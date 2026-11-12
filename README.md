@@ -35,7 +35,8 @@ css/styles.css
 js/mock/data.js      — сид контента (тексты, ключи ответов). Только для мок-сервера
 js/mock/server.js    — мок Laravel REST API (ТЗ §13)
 js/api.js            — HTTP-клиент; USE_MOCK / BASE_URL для подключения Laravel
-js/ui.js             — робот DerekSci (SVG), модалки, сюжетные сцены, тосты, состояния
+js/ui.js             — робот DerekSci (полный рост, 9 эмоций с анимациями), модалки, сюжетные сцены, тосты, состояния
+assets/robot/        — позы робота (wave, jump, wow, think, proud, sad, laugh, angry, wink), вырезаны из панели эмоций 3×3
 js/scenes.js         — анимированные SVG-сцены к сюжетным репликам (зацикленные, как GIF)
 vendor/lucide.min.js — иконки Lucide v1.72.0 (ISC), локальная копия
 js/questions.js      — 5 типов заданий: sentence_select, fill_choice, claim_check, sequence_order, source_select

@@ -14,7 +14,8 @@
       ui.icon(name, size).replace('<svg ', '<svg x="0" y="0" ') + '</g></g>';
   }
   function robotAt(mood, x, y, size, cls) {
-    return '<g transform="translate(' + x + ' ' + y + ')"><g class="' + (cls || '') + '">' + ui.robot(mood, size) + '</g></g>';
+    var h = size * 1.4, w = h * 294 / 388;
+    return '<g transform="translate(' + (x + (size - w) / 2).toFixed(1) + ' ' + (y + size * .95 - h).toFixed(1) + ')"><g class="' + (cls || '') + '">' + ui.robot(mood, h) + '</g></g>';
   }
   function stars() {
     var pts = [[24, 18], [70, 32], [118, 12], [210, 22], [262, 36], [300, 14], [160, 28]];
@@ -67,7 +68,7 @@
         '<text x="202" y="56" font-size="9" font-weight="800" fill="#c7384a" font-family="Nunito, sans-serif">ОТВЕТ</text>' +
         '<text x="202" y="76" font-size="13" font-weight="900" fill="#1b2236" font-family="Nunito, sans-serif">«В полночь»</text>' +
         ic('circle-x', 276, 40, 18, '#c7384a') + '</g>' +
-        robotAt('think', 128, 104, 64) +
+        robotAt('think', 136, 118, 50) +
         '<rect class="s-scan" x="18" y="34" width="284" height="3" rx="1.5" fill="#7af0c8" opacity=".8"/>',
         'Робот DerekSci сканирует карточку: на вопрос «Где спрятан подарок?» стоит ответ «В полночь»');
     },
@@ -86,7 +87,7 @@
           var pos = [[118, 70], [198, 58], [214, 138]][i];
           return '<text class="s-pop" style="animation-delay:' + (i * .5) + 's" x="' + pos[0] + '" y="' + pos[1] + '" font-size="22" font-weight="900" fill="#ff5d6c" font-family="Nunito, sans-serif">' + q + '</text>';
         }).join('') +
-        robotAt('wow', 124, 62, 72, 's-wobble'),
+        robotAt('wow', 124, 62, 72),
         'Вокруг растерянного робота летают подарок, часы, пирог и коробка с вопросительными знаками');
     },
 
@@ -111,7 +112,7 @@
     partner: function () {
       return wrap('partner',
         stars() +
-        robotAt('happy', 52, 44, 104, 's-bob') +
+        robotAt('wave', 52, 56, 90) +
         '<g class="s-swing">' + ic('search', 150, 48, 46, '#ffb020') + '</g>' +
         '<g class="s-pop" style="animation-delay:.3s"><rect x="206" y="58" width="96" height="58" rx="14" fill="#fff"/>' +
         ic('user-round', 220, 68, 36, '#5b6cff') +
@@ -283,7 +284,7 @@
     var from = [2, 0, 3, 1]; // где карточка стоит в начале
     var colors = ['#14a37f', '#ffb020', '#e07a1f', '#5b6cff'];
     return wrap('sorting',
-      robotAt('think', 22, 50, 70, 's-bob') +
+      robotAt('think', 22, 50, 70) +
       '<g class="s-flip">' + ic('hourglass', 268, 20, 30, '#ffe7a3') + '</g>' +
       words.map(function (w, i) {
         var dy = (from[i] - i) * 30;
@@ -444,7 +445,7 @@
         return '<g class="s-pop s-slow" style="animation-delay:' + k * .3 + 's"><circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="17" fill="#2d376e" stroke="#7af0c8" stroke-width="2"/>' +
           ic(n, x - 10, y - 10, 20, '#7af0c8') + '</g>';
       }).join('') +
-      robotAt('happy', 116, 72, 88, 's-bob'),
+      robotAt('happy', 125, 96, 70),
       'Робот DerekSci радуется, падает конфетти, вокруг загораются пять восстановленных систем');
   }
   SCENES.celebrate = function () { return celebrateWith('celebrate', ['scroll-text', 'lightbulb', 'scale', 'hourglass', 'compass']); };

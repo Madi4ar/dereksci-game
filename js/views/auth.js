@@ -6,7 +6,7 @@
   app.views.welcome = function () {
     app.render(
       '<section class="welcome">' +
-        '<div class="welcome-hero">' + ui.robot('happy', 140) + '</div>' +
+        '<div class="welcome-hero">' + ui.robotCycle(240) + '</div>' +
         '<p class="eyebrow">Образовательная игра</p>' +
         '<h1 class="welcome-title">DerekSci</h1>' +
         '<p class="welcome-slogan" lang="kk">Сөз тапқанға қолқа жоқ</p>' +
