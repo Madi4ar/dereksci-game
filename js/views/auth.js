@@ -7,8 +7,8 @@
     app.render(
       '<section class="welcome">' +
         '<div class="welcome-hero">' + ui.robot('happy', 140) + '</div>' +
-        '<p class="eyebrow">Образовательная игра с роботом DerekSci</p>' +
-        '<h1 class="welcome-title">Izkeser</h1>' +
+        '<p class="eyebrow">Образовательная игра</p>' +
+        '<h1 class="welcome-title">DerekSci</h1>' +
         '<p class="welcome-slogan" lang="kk">Сөз тапқанға қолқа жоқ</p>' +
         '<p class="welcome-lead">Цифровая библиотека потеряла связь между вопросами и ответами. Помоги роботу DerekSci восстановить пять городов: находи ответы в тексте, разбирайся в объяснениях, проверяй выводы, восстанавливай порядок и выбирай источники.</p>' +
         '<ul class="welcome-points"><li>Уроки по 3–7 минут</li><li>5 городов и секретное сообщение</li><li>Для школьников, студентов, учителей и взрослых</li></ul>' +
