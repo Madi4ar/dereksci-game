@@ -667,3 +667,4 @@ path.s-dash { animation: s-dash 1s linear infinite; }
 @media (prefers-reduced-motion: reduce) { .s-stampout, .s-fadeout { opacity: 0; } .s-settle { transform: rotate(180deg); } }
 /* SVG-атрибуты transform="rotate(a cx cy)" должны вращаться как в чистом SVG */
 .scene [transform] { transform-box: view-box; transform-origin: 0 0; }
+.welcome-slogan { font-size: 1.2rem; font-weight: 800; font-style: italic; color: var(--primary); margin: -.25rem 0 1rem; }
